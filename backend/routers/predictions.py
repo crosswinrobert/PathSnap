@@ -1,4 +1,5 @@
-﻿import time
+import os
+import time
 from pathlib import Path
 
 import joblib
@@ -19,9 +20,10 @@ from src.viz import make_trip_map
 from src.evaluation.compare_decoders import evaluate_route_continuity
 from experiments.member3_experiments import project_track_to_route
 
+PARTITION = os.getenv("PATHSNAP_PARTITION", "student_test").strip()
 router = APIRouter(prefix="/predict", tags=["Prediction"])
 
-MODEL_PATH = Path("artifacts/models/best_classifier.joblib")
+MODEL_PATH = Path("artifacts/models/member2_random_forest.joblib")
 CONFIG_PATH = "artifacts/configs/feature_config.json"
 MAP_DIR = Path("backend/generated_maps")
 
@@ -59,7 +61,7 @@ def get_config():
 def evaluate_classifier(trip_id, model):
     """Evaluate candidate classification using server-side labels."""
     eval_trip = load_trip(
-        partition="student_test",
+        partition=PARTITION,
         trip_id=trip_id,
         load_route=True
     )
@@ -181,7 +183,7 @@ def evaluate_route(trip_id, predicted_arcs, cand_df, decoder_latency):
     Reference data is loaded only in this server-side function.
     """
     eval_trip = load_trip(
-        partition="student_test",
+        partition=PARTITION,
         trip_id=trip_id,
         load_route=True
     )
@@ -259,17 +261,17 @@ def predict_trip(trip_id: str):
     start = time.perf_counter()
 
     try:
-        available_trips = list_trips("student_test")
+        available_trips = list_trips(PARTITION)
 
         if trip_id not in available_trips:
             raise HTTPException(
                 status_code=404,
-                detail="Trip not found in student-test dataset."
+                detail="Trip not found in configured dataset partition."
             )
 
         # Prediction path: reference route is deliberately not loaded.
         trip = load_trip(
-            partition="student_test",
+            partition=PARTITION,
             trip_id=trip_id,
             load_route=False
         )
