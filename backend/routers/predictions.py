@@ -77,12 +77,10 @@ def evaluate_classifier(trip_id, model):
     if not valid.any():
         raise ValueError("No valid reference labels for classifier evaluation.")
 
-    X_eval = eval_candidates.loc[valid, FEATURE_COLS].to_numpy(
-        dtype=np.float32
-    )
+    X_eval = eval_candidates.loc[valid, FEATURE_COLS].astype(np.float32)
     y_true = eval_candidates.loc[valid, "y"].astype(int).to_numpy()
 
-    if not np.isfinite(X_eval).all():
+    if not np.isfinite(X_eval.to_numpy()).all():
         raise ValueError("Evaluation features contain NaN or infinity.")
 
     y_pred = model.predict(X_eval)
@@ -101,9 +99,9 @@ def evaluate_classifier(trip_id, model):
 
 def decode_route(trip, cand_df, point_df, model):
     """Predict a route without loading or using reference labels."""
-    X = cand_df[FEATURE_COLS].to_numpy(dtype=np.float32)
+    X = cand_df[FEATURE_COLS].astype(np.float32)
 
-    if not np.isfinite(X).all():
+    if not np.isfinite(X.to_numpy()).all():
         raise ValueError("Input features contain NaN or infinity.")
 
     probabilities = model.predict_proba(X)
