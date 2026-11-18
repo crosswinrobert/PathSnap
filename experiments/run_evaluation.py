@@ -9,7 +9,7 @@ from src.evaluation.compare_decoders import run_decoder_comparison
 from experiments.member3_experiments import project_track_to_route
 
 def main():
-    base_dir = "/Users/amit/PathSnap"
+    base_dir = "/Users/amit/PathSnap-team"
     test_dir = os.path.join(base_dir, "data/raw/student_test")
     model_path = os.path.join(base_dir, "artifacts/models/best_classifier.joblib")
     print("Loading refitted best classifier from:", model_path, flush=True)
@@ -61,8 +61,8 @@ def main():
     t_start = time.time()
     df_results = run_decoder_comparison(
         trips_data=trips_eval_data,
-        output_csv_path=os.path.join(base_dir, "experiments/decoder_comparison.csv"),
-        plot_path=os.path.join(base_dir, "visualizations/routes/decoder_comparison.png")
+        output_csv_path=os.path.join(base_dir, "experiments/decoder_comparison_hmm_viterbi_member3.csv"),
+        plot_path=os.path.join(base_dir, "visualizations/routes/decoder_comparison_hmm_viterbi_member3.png")
     )
     print("Comparison finished in", round(time.time() - t_start, 2), "s", flush=True)
     print("")
