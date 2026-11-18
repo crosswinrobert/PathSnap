@@ -1,11 +1,14 @@
+# PathSnap dependencies (unpinned; run `pip freeze` on a working machine to pin versions)
 numpy
 pandas
 scipy
 scikit-learn
-matplotlib
-seaborn
-folium
-pyarrow
 joblib
-jupyter
-scikit-optimize
+networkx
+matplotlib
+folium
+optuna
+pytest
+fastapi
+uvicorn
+pyarrow        # optional: parquet feature tables (build_dataset.py falls back to .csv.gz without it)

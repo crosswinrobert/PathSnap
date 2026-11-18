@@ -221,12 +221,13 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
-# Local datasets and generated data
-data/raw/
-data/processed/features_*
-data/processed/points_*
 
-# IDE and Python environment
+# PyCharm configuration
 .idea/
 .venv/
 __pycache__/
+data/raw/
+data/processed/features_*
+data/processed/points_*
+.DS_Store
+*/.DS_Store
