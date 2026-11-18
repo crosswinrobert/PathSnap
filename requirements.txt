@@ -1,3 +1,4 @@
+# PathSnap dependencies (unpinned; run `pip freeze` on a working machine to pin versions)
 numpy
 pandas
 scipy
@@ -10,4 +11,4 @@ optuna
 pytest
 fastapi
 uvicorn
-pyarrow
+pyarrow        # optional: parquet feature tables (build_dataset.py falls back to .csv.gz without it)

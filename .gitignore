@@ -229,3 +229,5 @@ __pycache__/
 data/raw/
 data/processed/features_*
 data/processed/points_*
+.DS_Store
+*/.DS_Store
