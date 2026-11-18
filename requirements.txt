@@ -1,7 +1,11 @@
 numpy
 pandas
+scipy
 scikit-learn
 matplotlib
 seaborn
+folium
+pyarrow
 joblib
 jupyter
+scikit-optimize
