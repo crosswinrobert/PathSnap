@@ -226,7 +226,6 @@ __marimo__/
 .idea/
 .venv/
 __pycache__/
-data/raw/
 data/processed/features_*
 data/processed/points_*
 .DS_Store

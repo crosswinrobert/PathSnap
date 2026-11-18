@@ -1,4 +1,3 @@
-
 # PathSnap dependencies
 
 numpy
@@ -14,4 +13,6 @@ optuna
 pytest
 fastapi
 uvicorn
+
+# Optional: Parquet support
 pyarrow

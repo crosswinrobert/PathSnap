@@ -1,3 +1,4 @@
+﻿import AnalyticsDashboard from "./AnalyticsDashboard";
 
 import { useEffect, useMemo, useState } from "react";
 import {
@@ -92,7 +93,9 @@ function App() {
         setMessage(data.detail || `Request failed: ${response.status}`);
       } else {
         setPrediction(data);
-        setMessage("Route reconstruction completed.");
+        setMessage(
+  data.status === "candidate_top1" ? "Candidate predictions generated successfully. Temporal route decoding is pending."  : "Prediction completed successfully."
+);
       }
     } catch {
       setMessage("Unable to connect to the PathSnap API.");
@@ -111,7 +114,7 @@ function App() {
       {/* HEADER */}
       <header className="topbar">
         <div className="brand">
-          <div className="brand-mark">◈</div>
+          <div className="brand-mark">PS</div>
           <div>
             <div className="brand-name">PATHSNAP</div>
             <div className="brand-subtitle">GEOSPATIAL INTELLIGENCE</div>
@@ -163,7 +166,7 @@ function App() {
           <button
             className={`nav-item ${activeTab === "analytics" ? "active" : ""}`}
             title="Analytics"
-            onClick={() => setActiveTab("analytics")}
+            onClick={() => setActiveTab("models")}
           >
             <ChartNoAxesCombined size={19} />
           </button>
@@ -189,7 +192,7 @@ function App() {
             <div className="quick-actions">
               <button
                 className="quick-action"
-                onClick={() => document.getElementById("trip-search")?.focus()}
+                onClick={() => setActiveTab("trips")}
               >
                 <span className="quick-icon cyan-bg"><Route size={17} /></span>
                 <span>Trips</span>
@@ -197,7 +200,7 @@ function App() {
 
               <button
                 className="quick-action"
-                onClick={() => setActiveTab("analytics")}
+                onClick={() => setActiveTab("models")}
               >
                 <span className="quick-icon purple-bg"><Cpu size={17} /></span>
                 <span>Models</span>
@@ -205,7 +208,7 @@ function App() {
 
               <button
                 className="quick-action"
-                onClick={() => setActiveTab("map")}
+                onClick={() => setActiveTab("network")}
               >
                 <span className="quick-icon green-bg"><Network size={17} /></span>
                 <span>Network</span>
@@ -213,7 +216,7 @@ function App() {
 
               <button
                 className="quick-action"
-                onClick={() => setMessage("Dataset status is shown below.")}
+                onClick={() => setActiveTab("data")}
               >
                 <span className="quick-icon blue-bg"><Database size={17} /></span>
                 <span>Data</span>
@@ -234,12 +237,12 @@ function App() {
 
             <div className="monitor-row">
               <span><Cpu size={13} /> ML ENGINE</span>
-              <span className="muted-text">PENDING</span>
+              <span className="green-text">LOADED</span>
             </div>
 
             <div className="monitor-row">
               <span><Workflow size={13} /> ROUTE DECODER</span>
-              <span className="muted-text">PENDING</span>
+              <span className="green-text">LOADED</span>
             </div>
           </section>
 
@@ -252,7 +255,7 @@ function App() {
             <div className="trip-summary">
               <div>
                 <div className="section-caption">AVAILABLE TRIPS</div>
-                <div className="trip-count">{trips.length || "—"}</div>
+                <div className="trip-count">{trips.length || "N/A"}</div>
               </div>
               <Route size={22} className="muted-icon" />
             </div>
@@ -277,7 +280,7 @@ function App() {
                   >
                     <Route size={14} />
                     <span>{trip}</span>
-                    <span className="trip-arrow">›</span>
+                    <span className="trip-arrow">&gt;</span>
                   </button>
                 ))}
               </div>
@@ -298,7 +301,7 @@ function App() {
 
           <div className="sidebar-footer">
             <span>PATHSNAP BUILD 1.0</span>
-            <span>MEMBER 4 · BACKEND & UI</span>
+            <span>MEMBER 4 | BACKEND & UI</span>
           </div>
         </aside>
 
@@ -346,7 +349,202 @@ function App() {
             </button>
           </div>
 
-          <div className="map-container">
+          {["trips", "models", "network", "data", "analytics"].includes(activeTab) ? (
+            <div className="map-container info-view">
+              <div className="info-view-header">
+                <span className="map-label">PATHSNAP / CONTROL TOWER</span>
+                <span className="map-live">
+                  <StatusDot online={apiOnline} />
+                  {apiOnline ? "API ONLINE" : "API OFFLINE"}
+                </span>
+              </div>
+
+              {activeTab === "trips" && (
+                <div className="info-content">
+                  <h2>Trip Explorer</h2>
+                  <p>Browse and select available student-test trips.</p>
+                  <div className="info-stat-grid">
+                    <div className="info-stat">
+                      <strong>{trips.length}</strong>
+                      <span>Available trips</span>
+                    </div>
+                    <div className="info-stat">
+                      <strong>{selectedTrip || "None"}</strong>
+                      <span>Selected trip</span>
+                    </div>
+                  </div>
+                  <h3>Available trips</h3>
+                  <div className="info-trip-list">
+                    {trips.map((trip) => (
+                      <button
+                        key={trip}
+                        className={`trip-item ${selectedTrip === trip ? "selected" : ""}`}
+                        onClick={() => setSelectedTrip(trip)}
+                      >
+                        <Route size={15} />
+                        <span>{trip}</span>
+                        <span className="trip-arrow">&gt;</span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {activeTab === "models" && (
+                <div className="info-content">
+                  <h2>Machine Learning Models</h2>
+                  <p>Classifier currently integrated with the route reconstruction pipeline.</p>
+                  <div className="info-stat-grid">
+                    <div className="info-stat">
+                      <strong>Random Forest</strong>
+                      <span>Final classifier</span>
+                    </div>
+                    <div className="info-stat">
+                      <strong>25</strong>
+                      <span>Input features</span>
+                    </div>
+                    <div className="info-stat">
+                      <strong>2</strong>
+                      <span>Output classes: 0 and 1</span>
+                    </div>
+                  </div>
+                  <h3>Inference pipeline</h3>
+                  <div className="info-pipeline">
+                    <span>25-feature candidate input</span>
+                    <span>↓</span>
+                    <span>Random Forest classifier</span>
+                    <span>↓</span>
+                    <span>Probability scores</span>
+                    <span>↓</span>
+                    <span>HMM / Viterbi decoder</span>
+                  </div>
+                  <p className="info-note">Model artifact: artifacts/models/best_classifier.joblib</p>
+                  <div className="model-theory">
+                    <h3>TECHNICAL OVERVIEW</h3>
+
+                    <section className="theory-section">
+                      <h4>01 / What is Map Matching?</h4>
+                      <p>
+                        GPS devices record geographic positions, but these observations
+                        may contain noise and may not fall exactly on a road. Map matching
+                        identifies the most plausible road segments corresponding to a
+                        sequence of GPS observations.
+                      </p>
+                    </section>
+
+                    <section className="theory-section">
+                      <h4>02 / Candidate Generation</h4>
+                      <p>
+                        For each GPS observation, PathSnap identifies nearby candidate
+                        road segments. Each candidate is represented using engineered
+                        information about its distance, direction, movement, timing and
+                        road-network connectivity.
+                      </p>
+                    </section>
+
+                    <section className="theory-section">
+                      <h4>03 / Random Forest Classification</h4>
+                      <p>
+                        The integrated Random Forest classifier processes 25 features
+                        for each candidate. It predicts whether a candidate is a
+                        relevant road segment, producing class probabilities that are
+                        used by the route-decoding stage.
+                      </p>
+                    </section>
+
+                    <section className="theory-section">
+                      <h4>04 / HMM and Viterbi Decoding</h4>
+                      <p>
+                        Selecting the highest-scoring candidate independently at every
+                        GPS point can produce an inconsistent route. The Hidden Markov
+                        Model represents relationships between consecutive candidate
+                        states. The Viterbi algorithm finds a high-scoring sequence
+                        across the observations using these transition relationships.
+                      </p>
+                    </section>
+
+                    <section className="theory-section">
+                      <h4>05 / Important Limitations</h4>
+                      <p>
+                        The final route depends on the quality of GPS observations,
+                        candidate generation, classifier scores and road-network
+                        connectivity. If the correct road is missing from the candidate
+                        set, the decoder cannot select it.
+                      </p>
+                    </section>
+                  </div>
+                </div>
+              )}
+
+              {activeTab === "network" && (
+                <div className="info-content">
+                  <h2>Road Network</h2>
+                  <p>Road graph used by the map-matching and route reconstruction pipeline.</p>
+                  <div className="info-stat-grid">
+                    <div className="info-stat">
+                      <strong>16,284</strong>
+                      <span>Road arcs</span>
+                    </div>
+                    <div className="info-stat">
+                      <strong>Directed</strong>
+                      <span>Arc connectivity</span>
+                    </div>
+                    <div className="info-stat">
+                      <strong>HMM</strong>
+                      <span>Transition model</span>
+                    </div>
+                  </div>
+                  <h3>Network processing</h3>
+                  <div className="info-pipeline">
+                    <span>Road nodes and arcs</span>
+                    <span>↓</span>
+                    <span>Directed road graph</span>
+                    <span>↓</span>
+                    <span>HMM transition probabilities</span>
+                    <span>↓</span>
+                    <span>Viterbi route decoding</span>
+                  </div>
+                  <p className="info-note">Arc IDs preserve the original row indices in the network data.</p>
+                </div>
+              )}
+
+              {activeTab === "analytics" && (
+                <AnalyticsDashboard />
+              )}
+              {activeTab === "data" && (
+                <div className="info-content">
+                  <h2>Dataset Explorer</h2>
+                  <p>Dataset partitions used by the PathSnap project.</p>
+                  <div className="info-stat-grid">
+                    <div className="info-stat">
+                      <strong>80</strong>
+                      <span>Training trips</span>
+                    </div>
+                    <div className="info-stat">
+                      <strong>10</strong>
+                      <span>Student-test trips</span>
+                    </div>
+                    <div className="info-stat">
+                      <strong>10</strong>
+                      <span>Reserved evaluator trips</span>
+                    </div>
+                  </div>
+                  <h3>Data partitions</h3>
+                  <div className="info-data-row">
+                    <span>Training</span><strong>80 trips</strong>
+                  </div>
+                  <div className="info-data-row">
+                    <span>Student Test</span><strong>10 trips</strong>
+                  </div>
+                  <div className="info-data-row">
+                    <span>Evaluator Test</span><strong>10 reserved trips</strong>
+                  </div>
+                  <p className="info-note">Evaluator reference labels remain reserved for final server-side evaluation.</p>
+                </div>
+              )}
+            </div>
+          ) : (
+            <div className="map-container">
             <div className="map-top-overlay">
               <span className="map-label">
                 {activeTab === "map"
@@ -362,29 +560,22 @@ function App() {
             </div>
 
             <div className="map-placeholder">
-              <div className="map-center">
-                <div className="map-crosshair">
-                  <Crosshair size={39} />
+              {prediction?.map_url ? (
+                <iframe
+                  className="map-frame"
+                  title={`PathSnap reconstructed route ${prediction.trip_id}`}
+                  src={`${API_URL}${prediction.map_url}`}
+                />
+              ) : (
+                <div className="map-center">
+                  <div className="map-crosshair">
+                    <Crosshair size={39} />
+                  </div>
+                  <h3>GEOSPATIAL VIEWPORT</h3>
+                  <p>Awaiting GPS observations and road-network geometry</p>
+                  <span>SELECT A TRIP TO RECONSTRUCT ITS ROUTE</span>
                 </div>
-
-                <h3>
-                  {prediction
-                    ? "ROUTE RESPONSE RECEIVED"
-                    : "GEOSPATIAL VIEWPORT"}
-                </h3>
-
-                <p>
-                  {prediction
-                    ? `Reconstruction response for ${prediction.trip_id}`
-                    : "Awaiting GPS observations and road-network geometry"}
-                </p>
-
-                <span>
-                  {prediction
-                    ? "MAP RENDERING AWAITS COORDINATE DATA"
-                    : "MAP DATA NOT CONNECTED"}
-                </span>
-              </div>
+              )}
             </div>
 
             <div className="map-bottom-overlay">
@@ -392,7 +583,8 @@ function App() {
               <span><i className="legend-dot purple-dot" /> ROAD NETWORK</span>
               <span><i className="legend-dot red-dot" /> PREDICTED ROUTE</span>
             </div>
-          </div>
+            </div>
+          )}
 
           {/* ROUTE TIMELINE */}
           <div className="timeline-panel">
@@ -451,7 +643,7 @@ function App() {
               disabled={!selectedTrip || loading}
               onClick={reconstructRoute}
             >
-              {loading ? "PROCESSING..." : "↗  RECONSTRUCT ROUTE"}
+              {loading ? "PROCESSING..." : "[>]  RECONSTRUCT ROUTE"}
             </button>
 
             {message && <div className="feedback-message">{message}</div>}
@@ -469,12 +661,16 @@ function App() {
 
             <div className="detail-row">
               <span>ML Model</span>
-              <strong className="muted-text">Pending</strong>
+              <strong className={prediction ? "green-text" : "muted-text"}>
+                {prediction ? "ACTIVE" : "READY"}
+              </strong>
             </div>
 
             <div className="detail-row">
               <span>HMM Decoder</span>
-              <strong className="muted-text">Pending</strong>
+              <strong className={prediction?.status === "hmm_viterbi" ? "green-text" : "muted-text"}>
+                {prediction?.status === "hmm_viterbi" ? "ACTIVE" : "READY"}
+              </strong>
             </div>
           </section>
 
@@ -486,7 +682,7 @@ function App() {
                 <span>
                   {typeof accuracy === "number"
                     ? `${(accuracy * 100).toFixed(1)}%`
-                    : "—"}
+                    : "N/A"}
                 </span>
                 <small>ACCURACY</small>
               </div>
@@ -501,22 +697,100 @@ function App() {
             <div className="detail-row">
               <span>Macro F1</span>
               <strong>
-                {typeof macroF1 === "number" ? macroF1.toFixed(4) : "—"}
+                {typeof macroF1 === "number" ? macroF1.toFixed(4) : "N/A"}
               </strong>
             </div>
 
             <div className="detail-row">
               <span>Log Loss</span>
               <strong>
-                {typeof logLoss === "number" ? logLoss.toFixed(4) : "—"}
+                {typeof logLoss === "number" ? logLoss.toFixed(4) : "N/A"}
               </strong>
             </div>
 
-            {!prediction && (
-              <small className="muted-text">
-                Actual evaluation metrics will appear after integration.
-              </small>
-            )}
+            <div className="detail-row">
+              <span>Dataset</span>
+              <strong>{prediction ? "Student Test" : "Awaiting data"}</strong>
+            </div>
+
+            <div className="detail-row">
+              <span>Evaluation type</span>
+              <strong>{prediction ? "Candidate Classification" : "N/A"}</strong>
+            </div>
+
+            <div className="detail-row">
+              <span>Evaluated trip</span>
+              <strong>{prediction?.trip_id || "N/A"}</strong>
+            </div>
+
+            <div className="detail-row">
+              <span>Evaluation status</span>
+              <strong className={prediction?.evaluation ? "green-text" : "muted-text"}>
+                {prediction?.evaluation ? "EVALUATED" : "AWAITING"}
+              </strong>
+            </div>
+          </section>
+
+          <section className="detail-card route-performance-card">
+            <PanelTitle>ROUTE RECONSTRUCTION PERFORMANCE</PanelTitle>
+
+            <div className="route-metric-grid">
+              <div className="route-metric">
+                <span>ROUTE ACCURACY</span>
+                <strong>
+                  {typeof prediction?.route_evaluation?.accuracy === "number"
+                    ? `${(prediction.route_evaluation.accuracy * 100).toFixed(2)}%`
+                    : "N/A"}
+                </strong>
+              </div>
+
+              <div className="route-metric">
+                <span>ROUTE MACRO F1</span>
+                <strong>
+                  {typeof prediction?.route_evaluation?.macro_f1 === "number"
+                    ? prediction.route_evaluation.macro_f1.toFixed(4)
+                    : "N/A"}
+                </strong>
+              </div>
+
+              <div className="route-metric">
+                <span>ROUTE CONTINUITY</span>
+                <strong>
+                  {typeof prediction?.route_evaluation?.continuity === "number"
+                    ? `${(prediction.route_evaluation.continuity * 100).toFixed(2)}%`
+                    : "N/A"}
+                </strong>
+              </div>
+
+              <div className="route-metric">
+                <span>CANDIDATE MISS RATE</span>
+                <strong>
+                  {typeof prediction?.route_evaluation?.candidate_miss_rate === "number"
+                    ? `${(prediction.route_evaluation.candidate_miss_rate * 100).toFixed(3)}%`
+                    : "N/A"}
+                </strong>
+              </div>
+            </div>
+
+            <div className="detail-row">
+              <span>Viterbi latency / observation</span>
+              <strong>
+                {typeof prediction?.route_evaluation?.decoder_latency_ms_per_observation === "number"
+                  ? `${prediction.route_evaluation.decoder_latency_ms_per_observation.toFixed(4)} ms`
+                  : "N/A"}
+              </strong>
+            </div>
+
+            <div className="detail-row">
+              <span>Route evaluation</span>
+              <strong className={prediction?.route_evaluation ? "green-text" : "muted-text"}>
+                {prediction?.route_evaluation ? "COMPLETED" : "AWAITING"}
+              </strong>
+            </div>
+
+            <p className="route-metric-note">
+              Evaluated server-side against the reference route. Reference labels are not exposed to this interface.
+            </p>
           </section>
 
           <section className="detail-card">
@@ -524,7 +798,7 @@ function App() {
 
             <div className="detail-row">
               <span>Selected trip</span>
-              <strong>{selectedTrip || "—"}</strong>
+              <strong>{selectedTrip || "N/A"}</strong>
             </div>
 
             <div className="detail-row">
@@ -532,14 +806,14 @@ function App() {
               <strong>
                 {typeof prediction?.processing_time_seconds === "number"
                   ? `${prediction.processing_time_seconds.toFixed(3)} s`
-                  : "—"}
+                  : "N/A"}
               </strong>
             </div>
 
             <div className="detail-row">
               <span>Predicted segments</span>
               <strong>
-                {prediction?.predicted_route?.length ?? "—"}
+                {prediction?.predicted_route?.length ?? "N/A"}
               </strong>
             </div>
           </section>
@@ -559,3 +833,4 @@ function App() {
 }
 
 export default App;
+

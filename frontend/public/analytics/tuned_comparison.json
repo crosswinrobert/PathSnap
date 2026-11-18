@@ -1,0 +1,68 @@
+﻿[
+    {
+        "model":  "Extra Trees",
+        "accuracy":  "0.9480251081634774",
+        "precision_macro":  "0.9008855901454143",
+        "recall_macro":  "0.8586975567635626",
+        "f1_macro":  "0.8780508332010356",
+        "log_loss":  "0.1514718624822109",
+        "observation_top1_accuracy":  "0.7957676412111889",
+        "training_time_sec":  "27.33719033394009",
+        "inference_time_sec":  "2.055455950088799"
+    },
+    {
+        "model":  "HistGradientBoosting",
+        "accuracy":  "0.9466297809503118",
+        "precision_macro":  "0.8938967845664856",
+        "recall_macro":  "0.8612712007403797",
+        "f1_macro":  "0.8763820610892787",
+        "log_loss":  "0.13865886213751058",
+        "observation_top1_accuracy":  "0.7932027624514897",
+        "training_time_sec":  "4.864135549962521",
+        "inference_time_sec":  "0.36891576638445256"
+    },
+    {
+        "model":  "Logistic Regression",
+        "accuracy":  "0.9411811233866134",
+        "precision_macro":  "0.8758556491675726",
+        "recall_macro":  "0.8548493521901493",
+        "f1_macro":  "0.8648360162017095",
+        "log_loss":  "0.15025614798069",
+        "observation_top1_accuracy":  "0.7962730370264706",
+        "training_time_sec":  "1.0492404748685658",
+        "inference_time_sec":  "0.015338824782520532"
+    },
+    {
+        "model":  "Random Forest",
+        "accuracy":  "0.9483130710794627",
+        "precision_macro":  "0.9046555658816414",
+        "recall_macro":  "0.8563980633088434",
+        "f1_macro":  "0.8782348075641717",
+        "log_loss":  "0.15748548953683966",
+        "observation_top1_accuracy":  "0.7987245344152649",
+        "training_time_sec":  "81.31880252500996",
+        "inference_time_sec":  "1.0582948834635317"
+    },
+    {
+        "model":  "HistGradientBoosting Tuned",
+        "accuracy":  "0.9467757976069198",
+        "precision_macro":  "0.8946039077588953",
+        "recall_macro":  "0.8608239602065121",
+        "f1_macro":  "0.8764557850218033",
+        "log_loss":  "0.13483946963704413",
+        "observation_top1_accuracy":  "0.7945649149358375",
+        "training_time_sec":  "5.731816333625465",
+        "inference_time_sec":  "0.39641883336007594"
+    },
+    {
+        "model":  "Random Forest Tuned",
+        "accuracy":  "0.947842329791658",
+        "precision_macro":  "0.9025294998540586",
+        "recall_macro":  "0.8568169478083064",
+        "f1_macro":  "0.8775822708244616",
+        "log_loss":  "0.15265233811307927",
+        "observation_top1_accuracy":  "0.7992618700987959",
+        "training_time_sec":  "489.7329460749403",
+        "inference_time_sec":  "2.184545541740954"
+    }
+]

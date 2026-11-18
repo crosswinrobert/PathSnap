@@ -1,0 +1,92 @@
+﻿[
+    {
+        "trial_number":  "0",
+        "macro_f1":  "0.7773727223774316",
+        "n_estimators":  "80",
+        "max_depth":  "20",
+        "min_samples_split":  "8",
+        "min_samples_leaf":  "4",
+        "max_features":  "sqrt"
+    },
+    {
+        "trial_number":  "1",
+        "macro_f1":  "0.7782037808868429",
+        "n_estimators":  "140",
+        "max_depth":  "15",
+        "min_samples_split":  "8",
+        "min_samples_leaf":  "1",
+        "max_features":  "sqrt"
+    },
+    {
+        "trial_number":  "2",
+        "macro_f1":  "0.7743779233309492",
+        "n_estimators":  "60",
+        "max_depth":  "8",
+        "min_samples_split":  "4",
+        "min_samples_leaf":  "4",
+        "max_features":  "None"
+    },
+    {
+        "trial_number":  "3",
+        "macro_f1":  "0.774459842813034",
+        "n_estimators":  "40",
+        "max_depth":  "10",
+        "min_samples_split":  "5",
+        "min_samples_leaf":  "3",
+        "max_features":  "sqrt"
+    },
+    {
+        "trial_number":  "4",
+        "macro_f1":  "0.7609142288365056",
+        "n_estimators":  "100",
+        "max_depth":  "6",
+        "min_samples_split":  "7",
+        "min_samples_leaf":  "2",
+        "max_features":  "None"
+    },
+    {
+        "trial_number":  "5",
+        "macro_f1":  "0.7789945006107765",
+        "n_estimators":  "120",
+        "max_depth":  "10",
+        "min_samples_split":  "2",
+        "min_samples_leaf":  "5",
+        "max_features":  "None"
+    },
+    {
+        "trial_number":  "6",
+        "macro_f1":  "0.7758483969549154",
+        "n_estimators":  "40",
+        "max_depth":  "19",
+        "min_samples_split":  "4",
+        "min_samples_leaf":  "4",
+        "max_features":  "None"
+    },
+    {
+        "trial_number":  "7",
+        "macro_f1":  "0.7765358186656464",
+        "n_estimators":  "60",
+        "max_depth":  "20",
+        "min_samples_split":  "8",
+        "min_samples_leaf":  "6",
+        "max_features":  "None"
+    },
+    {
+        "trial_number":  "8",
+        "macro_f1":  "0.7739727634348308",
+        "n_estimators":  "40",
+        "max_depth":  "8",
+        "min_samples_split":  "2",
+        "min_samples_leaf":  "2",
+        "max_features":  "None"
+    },
+    {
+        "trial_number":  "9",
+        "macro_f1":  "0.7778554354042573",
+        "n_estimators":  "80",
+        "max_depth":  "10",
+        "min_samples_split":  "6",
+        "min_samples_leaf":  "1",
+        "max_features":  "None"
+    }
+]
