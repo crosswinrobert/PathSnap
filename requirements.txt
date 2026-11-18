@@ -1,9 +1,11 @@
-﻿# PathSnap dependencies
+
+# PathSnap dependencies
 
 numpy
 pandas
 scipy
 scikit-learn
+scikit-optimize
 joblib
 networkx
 matplotlib
@@ -12,6 +14,4 @@ optuna
 pytest
 fastapi
 uvicorn
-
-# Optional: uncomment to enable Parquet support
-# pyarrow
+pyarrow
