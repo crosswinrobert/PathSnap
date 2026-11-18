@@ -229,4 +229,4 @@ __pycache__/
 data/processed/features_*
 data/processed/points_*
 .DS_Store
-*/.DS_Store
+*/.DS_Storedata/raw_local_backup/
