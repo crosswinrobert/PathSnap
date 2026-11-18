@@ -1,0 +1,14 @@
+{
+    "best_macro_f1": 0.7789945006107765,
+    "best_hyperparameters": {
+        "n_estimators": 120,
+        "max_depth": 10,
+        "min_samples_split": 2,
+        "min_samples_leaf": 5,
+        "max_features": null
+    },
+    "n_trials": 10,
+    "cv_strategy": "GroupKFold(n_splits=5)",
+    "grouped_by": "trip_id",
+    "timestamp": "2026-11-18 11:02:30"
+}
