@@ -1,0 +1,11 @@
+{
+  "radius_m": 50.0,
+  "fallback_radius_m": 150.0,
+  "max_candidates": 15,
+  "sample_spacing_m": 15.0,
+  "bbox_margin_m": 500.0,
+  "heading_min_move_m": 3.0,
+  "gap_threshold_s": 10.0,
+  "label_jump_penalty_m": 10.0,
+  "label_dist_clip_m": 200.0
+}
