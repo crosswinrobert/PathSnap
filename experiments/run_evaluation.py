@@ -4,7 +4,7 @@ import numpy as np
 import pandas as pd
 from src.decoder.hmm import RoadNetwork, MapMatchingHMM
 from src.decoder.viterbi import ViterbiDecoder
-from src.features.candidate_features import extract_trip_candidates
+from src.decoder.candidate_features import extract_trip_candidates
 from src.evaluation.compare_decoders import run_decoder_comparison
 from experiments.member3_experiments import project_track_to_route
 

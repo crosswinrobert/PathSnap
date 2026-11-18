@@ -10,7 +10,7 @@ from typing import List, Dict, Any, Tuple
 
 from src.decoder.hmm import RoadNetwork, MapMatchingHMM
 from src.decoder.viterbi import ViterbiDecoder
-from src.features.candidate_features import extract_trip_candidates, point_to_segment_projection
+from src.decoder.candidate_features import extract_trip_candidates, point_to_segment_projection
 from src.models.baseline_classifier import build_candidate_classifier
 from src.optimization.bayesian_optimization import BayesianOptimizer
 from src.evaluation.compare_decoders import run_decoder_comparison, evaluate_route_continuity
