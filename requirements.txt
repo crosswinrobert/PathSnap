@@ -2,7 +2,12 @@ numpy
 pandas
 scipy
 scikit-learn
+joblib
+networkx
 matplotlib
-seaborn
 folium
-pyarrow        # optional: faster/smaller feature tables (falls back to .csv.gz without it)
+optuna
+pytest
+fastapi
+uvicorn
+pyarrow
