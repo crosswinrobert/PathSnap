@@ -1,10 +1,17 @@
-﻿fastapi
-uvicorn[standard]
+﻿# PathSnap dependencies
+
 numpy
 pandas
 scipy
 scikit-learn
+joblib
+networkx
 matplotlib
-seaborn
 folium
-pyarrow
+optuna
+pytest
+fastapi
+uvicorn
+
+# Optional: uncomment to enable Parquet support
+# pyarrow

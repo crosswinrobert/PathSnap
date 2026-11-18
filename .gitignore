@@ -224,3 +224,8 @@ __marimo__/
 
 # PyCharm configuration
 .idea/
+.venv/
+__pycache__/
+data/raw/
+data/processed/features_*
+data/processed/points_*
