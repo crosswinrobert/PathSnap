@@ -1,8 +1,0 @@
-numpy
-pandas
-scipy
-scikit-learn
-matplotlib
-seaborn
-folium
-pyarrow        # optional: faster/smaller feature tables (falls back to .csv.gz without it)
